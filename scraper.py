@@ -1,9 +1,10 @@
 # Data stored on individual pages not accessible from one single page
-# typical URL is http://www.ltscotland.org.uk/scottishschoolsonline/schools/freemealentitlement.asp? iSchoolID=5237521
+# typical URL is https://paulbradshaw.github.io/scraping-for-everyone/scottishschools/iSchoolid_5237521.html
 # Need to cycle through a list of those codes
-#If you want to understand this scraper - start at the bottom where it says 'base_url' (line 52 or so)
+#If you want to understand this scraper - start at the bottom where it says 'base_url' (line 40 or so)
 import scraperwiki
 import lxml.html
+
 #Create a function called 'scrape_table' which is called in the function 'scrape_page' below
 #The 'scrape_page' function also passed the contents of the page to this function as 'root'
 def scrape_table(root):
@@ -24,6 +25,7 @@ def scrape_table(root):
             print record, '------------'
             #Save in the SQLite database, with the ID code to be used as the unique reference
             scraperwiki.sqlite.save(["ID"], record)
+
 #this creates a new function and (re)names whatever parameter is passed to it - i.e. 'next_link' below - as 'url'
 def scrape_page(url):
     #now 'url' is scraped with the scraperwiki library imported above, and the contents put into a new object, 'html'
@@ -33,6 +35,7 @@ def scrape_page(url):
     root = lxml.html.fromstring(html)
     #now we call another function on root, which we write - above
     scrape_table(root)
+
 #START HERE: This is the part of the URL which all our pages share
 base_url = 'https://paulbradshaw.github.io/scraping-for-everyone/scottishschools/iSchoolid_'
 #And these are the numbers which we need to complete that URL to make each individual URL
